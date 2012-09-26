@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+
+   <meta name="viewport" content="user-scalable=no">
+   <!-- <meta name="viewport" content="width=device-width; initial-scale=1; maximum-scale=1; minimum-scale=1; user-scalable=no;" />-->
+
+     <!--<meta name="viewport" content="width=device-width; initial-scale=1; maximum-scale=1; minimum-scale=1; user-scalable=no;" />-->
+       <title>Mass Mobile Experiment</title>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="mmh.js"></script>
+        <script src="jquery.min.js"></script>
+        <link rel="stylesheet" href="style.css" type="text/css"/>
+    </head>
+    <body>
+        <div id="main" class="fullscreen">
+            <p class="welcome tron_white">AD<br/>Coding<br/>Competition<br/><br/><span style="font-size: 30px">Innovate Deliver Excite !</span></p>
+            <br>
+            <div class="logo"><img src="/images/MYOB_150.png" width="100"  alt="" /></div>
+        </div>
+        <script src="client.js"></script>
+        <script>
+        var iDevice = false;
+        $(document).ready(function() {
+            //sneak in the iPhone view port...
+            if (navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPad/i)) {
+                iDevice = true;
+                var viewportmeta = document.querySelector('meta[name="viewport"]');
+                if (viewportmeta) {
+                    viewportmeta.content = 'width=device-width; initial-scale=1; maximum-scale=1; minimum-scale=1; user-scalable=no;';
+                }
+            }
+            setTimeout(getGame, 7000);
+        });
+        </script>
+    </body>
+</html>

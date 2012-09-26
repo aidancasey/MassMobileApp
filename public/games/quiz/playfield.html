@@ -1,0 +1,233 @@
+<style>
+	.answer {
+		font-size: 30pt;
+		text-align: right;
+	}
+	.option {
+		font-size: 30pt;
+	}
+	.hidden_answer {
+		display: none;
+	}
+	.shown_answer {
+		display: inline;
+	}
+	.answerrow {
+		width: 100%;
+	}
+	.correct_answer {
+		background-color: firebrick;
+	}
+	.q {
+		text-align: left;
+		margin: 10%;
+		font-size: 40pt;
+		color: white;
+	}
+	.letter {
+		color: white;
+		padding-left:  2px;
+		padding-right: 2px;
+		width: 80px;
+	}
+
+</style>
+<div class="q">
+	<!-- TODO: convert this to a table -->
+	<span>Question </span> <span id="q"></span><br/>
+	<hr/>
+	<table padding="0" cellspacing="0">
+		<tr class="answerrow">
+			<td width="900px"><span class="letter">A.</span> <span id="a1" class="option"></span> </td><td><span id="v1" class="answer hidden_answer"></span></td>
+		</tr>
+		<tr class="answerrow">
+			<td><span class="letter">B.</span> <span id="a2" class="option"></span> </td><td><span id="v2" class="answer hidden_answer"></span></td>
+		</tr>
+		<tr class="answerrow">
+			<td><span class="letter">C.</span> <span id="a3" class="option"></span></td><td><span id="v3" class="answer hidden_answer"></span></td>
+		</tr>
+		<tr class="answerrow">
+			<td><span class=letter>D.</span> <span id="a4" class="option"></span></td><td><span id="v4" class="answer hidden_answer"></span></td>
+		</tr>
+	</table>
+</div>
+<p class="q" style="font-size: 40pt; text-align: right;margin: 10%">pong.azurewebsites.net</p>
+<script src="/games/quiz/quiz_playfield.js"></script>
+
+<script>
+	var q = -1;
+	
+/*	var questions = [
+		{q: "In which city did Australia’s first legal casino open for business in 1973?",
+			c: 3,
+			a: ["Sydney", "Canberra", "Brisbane", "Hobart"]},
+		{q: "Who painted The Scream?",
+			c: 1,
+			a: ["Rolf Harris", "Edvard Munch", "Edward Scissors hands", "Leonardo Da Vinci"]},
+		{q: "How many rows of teeth does a great white shark have?",
+            c: 0,
+			a: ["5", "3", "1", "2"]},
+        {q: "What makes Node.js blazingly fast?",
+            c: 3,
+            a: ["Google's V8 Engine" , "Single Threaded Architecture", "Non Blocking Event Loop", "All of the above"]
+        },
+        {q: "In what year did Atari first release the computer game Pong?",
+            c: 1,
+            a: ["1976", "1972", "1981", "1964"]},
+        {q: "What was the original name of the team the developed Windows NT ?",
+            c: 1,
+            a: ["The Code Monkeys", "The Portable Systems Team", "The Avengers", "The Portables"]},
+        {q: "How many lines of code in Windows XP ?",
+            c: 2,
+            a: ["1.5 Million", "15 Million", "45 Million", "900,000"]},
+
+        {q: "Whats the fastest speed a red kangaroo can a hop ?",
+            c: 2,
+            a: ["20km/hr", "40km/hr", "70km/hr", "65km/hr"]},
+        {q: "Rolling Stone magazines greatest song of all time?",
+            c: 0,
+            a: ["Bob Dylan - 'Like a Rolling Stone'" , "John Lennon - 'Imagine'", "The Beatles - 'Hey Jude'", "Men at Work - 'Land Down Under'"]
+        },
+        {q: "Where was Lada Gaga born?",
+            c: 0,
+            a: ["Mars" , "New York", "Wollongong", "Dallas"]
+        } ,
+        {q: "How many paintings did Van Gough sell during his lifetime?",
+            c: 1,
+            a: ["0" , "1", "20", "42"]
+        },
+        {q: "What is the chemical symbol for the element gold?",
+            c: 3,
+            a: ["GO" , "$$", "GD", "AU"]
+        },
+        {q: "What does a Hippologist study?",
+            c: 1,
+            a: ["Horses" , "Herbs", "Hippopotamuses", "Hip hop dancers"]
+        },
+        {q: "How many Harry Potter books are there?",
+            c: 2,
+            a: ["5" , "6", "7", "8"]
+        },
+        {q: "Where is the Node.js source code available for download?",
+            c: 0,
+            a: ["GitHub" , "CodePlex", "Joyent", "Nodejitsu"]
+        }
+	];*/
+
+
+
+
+    var questions = [
+        {q: "What is the MYOB Live tag line on the newly revamped MYOB website?",
+            c: 1,
+            a: ["Manage your own business!", "Manage your business anywhere, anytime!", "Stay away from the cloud!", "Manage your expectations!"]},
+        {q: "How many members are there in the AD Coding competition group on Yammer?",
+            c: 2,
+            a: ["9", "18", "28", "34"]},
+        {q: "How many discussion threads in the AD Coding competition group on Yammer?",
+            c: 1,
+            a: ["53", "103", "203", "512"]},
+        {q: "What is the maximum number of nodes Neo4J supports?",
+            c: 0,
+            a: ["34 billion", "1 billion", "no upper limit", "1 trillion"]},
+        {q: "There were 10 entries in the competition. How many lines of code in total (inc node_modules)?",
+            c: 2,
+            a: ["~10,000", "~50,000", "~400,000", "~1,000,000"]},
+        {q: "What makes Node.js so blazingly fast?",
+            c: 3,
+            a: ["Google's V8 Engine" , "Single Threaded Architecture", "Non Blocking Event Loop", "All of the above"]
+        },
+        {q: "Where is the Node.js source code available for download?",
+            c: 0,
+            a: ["GitHub" , "CodePlex", "Joyent", "Nodejitsu"]
+        },
+        {q: "Most popular NoSQL databases according to LinkedIn skillsets?",
+            c: 1,
+            a: ["Neo4J" , "MongoDB", "Redis", "CouchDB"]
+        },
+        {q: "How many developers worldwide use GitHub?",
+            c: 1,
+            a: ["1 million" , "2 million", "5 million", "10 million"]
+        }
+
+
+    ];
+
+
+	nextQuestion();
+
+	function nextQuestion() {
+		q++;
+		if (q < questions.length) {
+			hideVotes();
+			$(".answerrow").removeClass("correct_answer");
+			QuizPlayfield.clearVotes();
+
+
+            document.getElementById("q").innerHTML = (q+1) + ": " + questions[q].q;
+
+            //    $("#q").text((q+1) + ": " + questions[q].q);
+			$("#a1").text(questions[q].a[0]);
+			$("#a2").text(questions[q].a[1]);
+			$("#a3").text(questions[q].a[2]);
+			$("#a4").text(questions[q].a[3]);
+		} else {
+			q--; // go back to the last good question.
+		}
+	}
+
+	var votesVisible = false;
+
+	function showHideVotes() {
+		(votesVisible)? hideVotes() : showVotes();
+	}
+
+	function hideVotes() {
+		votesVisible = false;
+		$(".answer").removeClass("shown_answer").addClass("hidden_answer");
+	}
+
+	function showVotes() {
+		votesVisible = true;
+		$(".answer").removeClass("hidden_answer").addClass("shown_answer");	
+	}
+
+	// TODO: make these perentages
+	function updateVotes() {
+		var answers = QuizPlayfield.calculateVotes();
+
+		// add up totals to get the percentage
+		var total = answers[0] + answers[1] + answers[2] + answers[3];
+
+		$("#v1").text(percent(answers[0], total) + "%");
+		$("#v2").text(percent(answers[1], total) + "%");
+		$("#v3").text(percent(answers[2], total) + "%");
+		$("#v4").text(percent(answers[3], total) + "%");
+	}
+
+	function percent(val, total) {
+		if (total == 0) { return 0; }
+		return Math.floor(val*100/total)
+	}
+
+	function showCorrectAnswer() {
+		$($("tr.answerrow")[questions[q].c]).addClass("correct_answer");
+
+		// Send the answer to all the handsets so they can show the result
+       	QuizPlayfield.sendToPlayers({game: "quiz", answer: questions[q].c});
+	}
+
+	var voteTimer;
+	function initPlayfield() {
+		QuizPlayfield.init();
+
+		// start a timer on the calculation of votes
+		voteTimer = setInterval(updateVotes, 2000);
+
+		return QuizPlayfield;
+	}
+
+	function shutdown() {
+		clearInterval(voteTimer);
+	}
+</script>
